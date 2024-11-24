@@ -1,17 +1,19 @@
 "use client"
-import React, { useState, useEffect } from 'react';
-import ImageLoader from '@/components/ImageLoader'; // Assuming the correct import path
-import { signupLoginBanner, vegan } from '@/container/ImageConstant';
-import { FcGoogle } from "react-icons/fc";
-import { useRouter } from 'next/navigation';
+import React, { useState, useEffect } from 'react'
+import Link from 'next/link';
 import Cookies from 'js-cookie';
-const LoginPage: React.FC = () => {
-    const router = useRouter();
+import { useRouter } from 'next/navigation';
+import ImageLoader from '@/components/ImageLoader';
+import { vegan, frontStoreBanner } from '@/constant/ImageConstant';
+import { FcGoogle } from "react-icons/fc";
+
+const LoginPage = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [userType, setUserType] = useState('diner');
+    const [userType, setUserType] = useState('owner');
     const [error, setError] = useState('');
 
+    const router = useRouter()
     useEffect(() => {
         if (error) {
             const timer = setTimeout(() => {
@@ -36,7 +38,7 @@ const LoginPage: React.FC = () => {
 
             const data = await response.json();
             Cookies.set('token', data.token)
-            router.push('/'); // Redirect to the homepage after successful login
+            router.push('/overview'); // Redirect to the homepage after successful login
         } else {
             const errorData = await response.json();
             setError(errorData.error);
@@ -45,86 +47,85 @@ const LoginPage: React.FC = () => {
 
     return (
         <div>
-            <div className="flex items-center justify-center h-[52rem]">
-                <div className="flex w-full h-full">
-                    {/* Image Column */}
-                    <div className="w-1/3 relative h-full">
-                        <div className="absolute inset-0">
-                            <ImageLoader
-                                path={signupLoginBanner.link}
-                                alt={signupLoginBanner.alt}
-                                cloudinaryAttributes={{
-                                    layout: "fill", // Fill the parent container
-                                    objectFit: "cover", // Ensure the image covers the container
-                                    objectPosition: "center"
-                                }}
-                            />
-                        </div>
+            <div className="w-full fixed top-0 left-0 text-black shadow-lg z-50">
+                <div className="max-w-7xl mx-auto flex justify-between items-center px-4 py-4">
+                    {/* Logo or Brand Name */}
+                    <div className="flex items-center gap-5">
+                        <ImageLoader
+                            path={vegan.link}
+                            alt={vegan.alt}
+                            width={64}
+                            height={64}
+                        />
+                        <h1 className="font-bold text-green-600 text-2xl">Vegan Review</h1>
                     </div>
-
-                    {/* Signup Form Column */}
-                    <div className="w-2/3 flex flex-col items-center justify-center bg-white">
-                        {error && (
-                            <div role="alert" className="absolute top-24 w-[34rem] alert alert-error text-white flex items-center mt-5">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-6 w-6 shrink-0 stroke-current"
-                                    fill="none"
-                                    viewBox="0 0 24 24">
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                <span>{error}</span>
-                            </div>
-                        )}
-                        <div className="flex items-center justify-center mb-10">
-                            <ImageLoader
-                                path={vegan.link}
-                                alt={vegan.alt}
-                                width={100}
-                                height={100}
-                            />
+                    <div>
+                        <h3 className="text-red-600">Bạn cần giúp đỡ?</h3>
+                    </div>
+                </div>
+            </div>
+            <div className="flex justify-center items-center w-full h-screen gap-48">
+                <div className="flex flex-col items-end w-1/2">
+                    <div className="flex flex-col items-center gap-12">
+                        <div>
+                            <h1 className="text-3xl text-green-600 font-bold">Quảng bá cửa hàng của bạn</h1>
+                            <h3 className="text-lg w-[24rem] mt-5">Quản lý và quảng bá shop của bạn hiệu quả hơn trên Kênh Cửa Hàng với Review Vegan</h3>
                         </div>
-                        <form onSubmit={handleLoginSubmit} className="w-full max-w-md p-8 bg-white border-2 border-gray-500 rounded">
-                            <h2 className="text-2xl text-center font-bold mb-6">Đăng nhập</h2>
-                            <div className="mb-4">
+                        <ImageLoader
+                            path={frontStoreBanner.link}
+                            alt={frontStoreBanner.alt}
+                            width={250}
+                            height={250}
+                        />
+                    </div>
+                </div>
+                <div className=" flex flex-col items-start w-1/2">
+
+                    {error && (
+                        <div role="alert" className="absolute top-24 w-[26rem] alert alert-error text-white flex items-center mt-5">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-6 w-6 shrink-0 stroke-current"
+                                fill="none"
+                                viewBox="0 0 24 24">
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span>{error}</span>
+                        </div>
+                    )}
+                    <div className=" w-[26rem]  border-2 shadow-lg rounded-lg py-12 px-12">
+                        <h1 className="w-full text-center text-2xl text-black font-bold mb-8 mt-2">Đăng Nhập</h1>
+                        <form onSubmit={handleLoginSubmit} className=" flex flex-col w-full h-full gap-5">
+                            <h3 className="text-dark-blue-theme text-md">Tên đăng nhập</h3>
+                            <div>
                                 <input
-                                    id="username"
                                     type="text"
-                                    className="shadow appearance-none border-2 border-gray-500 rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
-                                    placeholder="Email hoặc tên đăng nhập"
+                                    id="username"
+                                    placeholder="Tên đăng nhập"
                                     onChange={(e) => setUsername(e.target.value)}
-                                />
+                                    className=" border border-[#a0a0a0] rounded-xl w-full py-3 px-3 text-black leading-tight  focus:outline-none focus:ring-1 focus:ring-green-600" />
                             </div>
-                            <div className="mb-6">
+                            <div>
                                 <input
-                                    id="password"
                                     type="password"
-                                    className="shadow appearance-none border-2 border-gray-500 rounded w-full py-2 px-3 text-black mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                                    id="password"
                                     placeholder="Mật khẩu"
                                     onChange={(e) => setPassword(e.target.value)}
-                                />
+                                    className=" border border-[#a0a0a0] rounded-xl w-full py-3 px-3 text-black leading-tight  focus:outline-none focus:ring-1 focus:ring-green-600" />
                             </div>
-                            <div className="mb-6">
+                            <button type="submit" className=" bg-custom-green rounded-xl w-full py-3 px-3 hover:bg-green-800 text-white">Đăng nhập</button>
+                            <div className="flex justify-between text-dark-blue-theme ">
+                                <Link href={"/signup"}><h4 className="hover:underline cursor-pointer">Tạo tài khoản</h4></Link>
+                                <h4 className="hover:underline cursor-pointer">Quên mật khẩu?</h4>
+                            </div>
+                            <div className="w-full border  border-gray-500"></div>
+                            <div className="flex items-center justify-center gap-5">
                                 <button
-                                    type="submit"
-                                    className="btn w-full py-2 bg-custom-green border-2 border-gray-500 text-white hover:bg-green-800"
-                                >
-                                    Đăng Nhập
-                                </button>
-                            </div>
-                            <div className="flex items-center justify-center w-full space-x-2 mt-5">
-                                <div className="h-[1px] bg-black flex-1"></div>
-                                <h1 className="text-md font-medium">Hoặc đăng nhập bằng</h1>
-                                <div className="h-[1px] bg-black flex-1"></div>
-                            </div>
-
-                            <div className="flex items-center justify-center mt-5">
-                                <button
-                                    className="btn py-2 border-2 border-gray-500 text-black bg-white"
+                                    className="btn py-2 border border-gray-500 text-black bg-white"
                                 >
                                     <FcGoogle className="text-3xl" />
                                     Đăng nhập bằng Google
@@ -133,9 +134,11 @@ const LoginPage: React.FC = () => {
                         </form>
                     </div>
                 </div>
-            </div>
+            </div >
         </div>
-    );
+
+    )
 }
 
-export default LoginPage;
+
+export default LoginPage

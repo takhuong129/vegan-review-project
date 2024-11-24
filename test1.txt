@@ -1,1 +1,7 @@
 
+
+           const handleLinkChange = (index: number, field: keyof DeliveryLink, value: string) => {
+        const newLinks = [...deliveryLinks];
+        newLinks[index][field] = value.trim() === "" ? "" : value;
+        setDeliveryLinks(newLinks);
+    };
