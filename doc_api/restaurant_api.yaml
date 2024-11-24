@@ -1,0 +1,1213 @@
+openapi: 3.0.0
+info:
+  title: Restaurant Management API
+  description: API for managing restaurants, categories, and food items with user authentication.
+  version: 1.0.0
+components:
+  securitySchemes:
+    jwt_token:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  responses:
+    500ExceptionError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "Error message describing the issue"
+  schemas:
+    RestaurantSent:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Quán Bún Chay Cô Sáu"
+        categoryDescription:
+          type: string
+          example: "Quán Bún Cô Sáu là nơi mang đến hương vị truyền thống..."
+        foodCountryType:
+          type: string
+          example: "Việt Nam"
+        foodCountryImageLink:
+          type: string
+          example: "v1731498978/vietnam_pq532f.png"
+        promoImageCollection:
+          type: array
+          items:
+            type: string
+            format: byte
+            example: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD..."
+        profileImageLink:
+          type: string
+          format: byte
+          example: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD..."
+        addressCollection:
+          type: array
+          items:
+            type: object
+            properties:
+              addressText:
+                type: string
+                example: "438 Phạm Văn Đồng, P. Hiệp Bình Chánh,  Tp. Thủ Đức, TP. HCM"
+              branchName:
+                type: string
+                example: "new"
+        phoneNumber:
+          type: string
+          example: "09125320587"
+        openHours:
+          type: string
+          example: "06:00 - 11:00"
+        openDays:
+          type: string
+          example: "Thứ 2 - Thứ 6"
+        pureVegan:
+          type: boolean
+          example: true
+        takeAway:
+          type: boolean
+          example: true
+        dineIn:
+          type: boolean
+          example: true
+        buffet:
+          type: boolean
+          example: true
+        lowestPrice:
+          type: number
+          format: float
+          example: 25000
+        highestPrice:
+          type: number
+          format: float
+          example: 35000
+        paymentMethod:
+          type: array
+          items:
+            type: string
+            example: "tiền mặt"
+        deliveryCollection:
+          type: array
+          items:
+            type: object
+            properties:
+              company:
+                type: string
+                example: "Foody"
+              link:
+                type: string
+                example: "https://www.foody.vn/"
+    RestaurantRecieve:
+      type: object
+      properties:
+        ownerId:
+          type: string
+          example: "6737fb5498d326f7c25b2ae7"
+        restaurantId:
+          type: string
+          example: "6737fb5498d326f7c25b2ae7"
+        name:
+          type: string
+          example: "Quán Bún Chay Cô Sáu"
+        categoryDescription:
+          type: string
+          example: "Quán Bún Cô Sáu là nơi mang đến hương vị truyền thống..."
+        foodCountryType:
+          type: string
+          example: "Việt Nam"
+        foodCountryImageLink:
+          type: string
+          example: "v1731498978/vietnam_pq532f.png"
+        promoImageCollection:
+          type: array
+          items:
+            type: string
+            example: "v1731498978/Restaurants/6737fb5498d326f7c25b2ae7_promo_1.png"
+        profileImageLink:
+          type: string
+          example: "v1731498978/Restaurants/6737fb5498d326f7c25b2ae7_profile.png"
+        addressCollection:
+          type: array
+          items:
+            type: object
+            properties:
+              addressText:
+                type: string
+                example: "438 Phạm Văn Đồng, P. Hiệp Bình Chánh,  Tp. Thủ Đức, TP. HCM"
+              branchName:
+                type: string
+                example: "new"
+              mapLatitude:
+                type: number
+                format: float
+                example: 10.839613654249511
+              mapLongitude:
+                type: number
+                format: float
+                example: 106.73831228830227
+        phoneNumber:
+          type: string
+          example: "09125320587"
+        openHours:
+          type: string
+          example: "06:00 - 11:00"
+        openDays:
+          type: string
+          example: "Thứ 2 - Thứ 6"
+        pureVegan:
+          type: boolean
+          example: true
+        takeAway:
+          type: boolean
+          example: true
+        dineIn:
+          type: boolean
+          example: true
+        buffet:
+          type: boolean
+          example: true
+        lowestPrice:
+          type: number
+          format: float
+          example: 25000
+        highestPrice:
+          type: number
+          format: float
+          example: 35000
+        paymentMethod:
+          type: array
+          items:
+            type: string
+            example: "tiền mặt"
+        deliveryCollection:
+          type: array
+          items:
+            type: object
+            properties:
+              company:
+                type: string
+                example: "Foody"
+              link:
+                type: string
+                example: "https://www.foody.vn/"
+    FoodSent:
+      type: object
+      properties:
+        categoryId:
+          type: string
+          example: "6737fb5498d326f7c25b2ae7"
+        name:
+          type: string
+          example: "Bún bò Huế"
+        description:
+          type: string
+          example: "Món bún nổi tiếng với nước dùng đậm đà."
+        price:
+          type: number
+          format: float
+          example: 35.00
+        imageLink:
+          type: string
+          format: byte
+          example: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD..."
+      required:
+        - categoryId
+        - name
+        - price
+    FoodRecieve:
+      type: object
+      properties:
+        foodId:
+          type: string
+          example: "6737fb5498d326f7c25b2ae7"
+        restaurantId:
+          type: string
+          example: "6737fb5498d326f7c25b2ae7"
+        categoryId:
+          type: string
+          example: "6737fb5498d326f7c25b2ae7"
+        name:
+          type: string
+          example: "Bún bò Huế"
+        description:
+          type: string
+          example: "Món bún nổi tiếng với nước dùng đậm đà."
+        price:
+          type: number
+          format: float
+          example: 35.00
+        imageLink:
+          type: string
+          example: "v1731498978/Foods/6737fb5498d326f7c25b2ae7_food_image.png"
+    Comment:
+      type: object
+      properties:
+        commentId:
+          type: string
+          example: "673ceaf3dc59bc8f19937845"
+        commentText:
+          type: string
+          example: "comment test 1 1"
+        dateCreated:
+          type: string
+          format: date-time
+          example: "Wed, 20 Nov 2024 02:45:46 GMT"
+        userId:
+          type: string
+          example: "6736ed3821c22145be2db9cc"
+        username:
+          type: string
+          example: "user1"
+        userImage:
+          type: string
+          example: "v1732026156/Website Image/default_user_profile.webp"
+        userType:
+          type: string
+          example: "owner_other"
+    Rating:
+      type: object
+      properties:    
+        ratingId:
+          type: string
+          example: "673ce9d823458a2d1afe5b56"
+        ratingAmount:
+          type: number
+          format: float
+          example: 3.0
+        ratingText:
+          type: string
+          example: "testtst"
+        dateCreated:
+          type: string
+          format: date-time
+          example: "Wed, 20 Nov 2024 02:41:02 GMT"
+        userId:
+          type: string
+          example: "6736ed3821c22145be2db9cc"
+        username:
+          type: string
+          example: "user1"
+        userImage:
+          type: string
+          example: "v1732026156/Website Image/default_user_profile.webp"
+        userType:
+          type: string
+          example: "owner_other"
+        countComment:
+          type: integer
+          example: 5
+        comments:
+          type: array
+          items:
+            $ref: "#/components/schemas/Comment"
+      
+paths:
+  /api/restaurant:
+    post:
+      summary: Create Restaurant
+      description: Create a new restaurant.
+      operationId: createRestaurant
+      tags:
+        - Restaurant
+      security:
+        - jwt_token: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RestaurantSent"
+      responses:
+        '201':
+          description: Restaurant created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  restaurant_id:
+                    type: string
+                    example: "new_restaurant_id"
+
+  /api/restaurant/{restaurant_id}:
+    patch:
+      summary: Update restaurant information
+      description: A protected API endpoint that allows the user to update restaurant info.
+      operationId: updateRestaurantInfo
+      tags:
+        - Restaurant
+      security:
+        - jwt_token: []
+      parameters:
+        - name: restaurant_id
+          in: path
+          required: true
+          description: The ID of the restaurant to update.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RestaurantSent"
+      responses:
+        '200':
+          description: Update restaurant info successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Update restaurant info successfully"
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Update restaurant info failed"
+        '500':
+          $ref: "#/components/responses/500ExceptionError"
+
+    get:
+      summary: Get restaurant information
+      description: Retrieves detailed information about a specific restaurant.
+      operationId: getRestaurantInfo
+      tags:
+        - Restaurant
+      parameters:
+        - name: restaurant_id
+          in: path
+          required: true
+          description: The ID of the restaurant to retrieve information for.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Get restaurant info successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestaurantRecieve"
+        '404':
+          description: Restaurant not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Restaurant not found"
+        '500':
+          $ref: "#/components/responses/500ExceptionError"
+
+  /api/restaurant/{restaurant_id}/categories:
+    post:
+      summary: Create a restaurant category
+      description: Allows the user to create a new category for a restaurant.
+      operationId: createRestaurantCategory
+      tags:
+        - Restaurant
+      security:
+        - jwt_token: []
+      parameters:
+        - name: restaurant_id
+          in: path
+          required: true
+          description: The ID of the restaurant to create a category for.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Món chính"
+              required:
+                - name
+      responses:
+        '201':
+          description: Create restaurant category successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Create restaurant category successfully"
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Create category failed"
+        '404':
+          description: Restaurant not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Restaurant not found"
+        '500':
+          $ref: "#/components/responses/500ExceptionError"
+                    
+    get:
+      summary: Get restaurant categories
+      description: Retrieves categories for a specific restaurant.
+      operationId: getRestaurantCategories
+      tags:
+        - Restaurant
+      parameters:
+        - name: restaurant_id
+          in: path
+          required: true
+          description: The ID of the restaurant to retrieve categories for.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Get restaurant categories successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Get restaurant categories successfully"
+                  restaurantCategories:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        restaurantId:
+                          type: string
+                          example: "6737fb5498d326f7c25b2ae7"
+                        categoryId:
+                          type: string
+                          example: "6737fb5498d326f7c25b2ae7"
+                        name:
+                          type: string
+                          example: "Món chính"
+                        shopId:
+                          type: string
+                          example: "6737fb5498d326f7c25b2ae6"
+                        totalFoodAmount:
+                          type: integer
+                          example: 0
+        '404':
+          description: Restaurant not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Restaurant not found"
+        '500':
+          $ref: "#/components/responses/500ExceptionError"
+
+  /api/restaurant/{restaurant_id}/foods:
+    post:
+      summary: Create a food item
+      description: Allows the user to create new food information for a restaurant.
+      operationId: createRestaurantFood
+      tags:
+        - Food
+      security:
+        - jwt_token: []
+      parameters:
+        - name: restaurant_id
+          in: path
+          required: true
+          description: The ID of the restaurant to create food for.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FoodSent"
+      responses:
+        '201':
+          description: Create restaurant food successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Create restaurant food successfully"
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Create restaurant food failed"
+        '404':
+          description: Restaurant not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Restaurant not found"
+        '500':
+          $ref: "#/components/responses/500ExceptionError"
+    get:
+      summary: Get restaurant foods
+      description: Retrieves all food items for a specific restaurant.
+      operationId: getRestaurantFoods
+      tags:
+        - Food
+      parameters:
+        - name: restaurant_id
+          in: path
+          required: true
+          description: The ID of the restaurant to retrieve food items for.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Get restaurant foods successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Get restaurant foods successfully"
+                  restaurantFoods:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/FoodRecieve"
+        '404':
+          description: Restaurant not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Restaurant not found"
+        '500':
+          $ref: "#/components/responses/500ExceptionError"
+  /api/restaurant/{restaurant_id}/foods/{food_id}:
+    patch:
+      summary: Update a food item
+      description: Allows the user to update information for a specific food item.
+      operationId: updateRestaurantFood
+      tags:
+        - Food
+      security:
+        - jwt_token: []
+      parameters:
+        - name: restaurant_id
+          in: path
+          required: true
+          description: The ID of the restaurant that the food item belongs to.
+          schema:
+            type: string
+        - name: food_id
+          in: path
+          required: true
+          description: The ID of the food item to update.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FoodSent"
+      responses:
+        '200':
+          description: Update restaurant food successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Update restaurant food successfully"
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Update food failed"
+        '404':
+          description: Food item not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Food item not found"
+        '500':
+          $ref: "#/components/responses/500ExceptionError"
+
+    delete:
+      summary: Delete a food item
+      description: Allows the user to delete a specific food item.
+      operationId: deleteRestaurantFood
+      tags:
+        - Food
+      security:
+        - jwt_token: []
+      parameters:
+        - name: restaurant_id
+          in: path
+          required: true
+          description: The ID of the restaurant that the food item belongs to.
+          schema:
+            type: string
+        - name: food_id
+          in: path
+          required: true
+          description: The ID of the food item to delete.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Delete restaurant food successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Delete restaurant food successfully"
+        '404':
+          description: Food item not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Food item not found"
+        '500':
+          $ref: "#/components/responses/500ExceptionError"
+  /api/restaurant/home/info_amount:
+    get:
+      summary: Get total count of restaurants
+      description: Retrieves the total count of restaurants for pagination.
+      operationId: getAllRestaurantInfoCount
+      tags:
+        - Home
+      responses:
+        '200':
+          description: Get restaurant total amount successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Get restaurant total amount successfully"
+                  totalRestaurantInfoAmount:
+                    type: integer
+                    example: 150
+        '500':
+          $ref: "#/components/responses/500ExceptionError"
+
+  /api/restaurant/home/food_amount:
+    get:
+      summary: Get total count of foods
+      description: Retrieves the total count of foods across all restaurants.
+      operationId: getAllRestaurantsFoodCount
+      tags:
+        - Home
+      responses:
+        '200':
+          description: Get food total amount successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Get food total amount successfully"
+                  totalRestaurantFoodAmount:
+                    type: integer
+                    example: 1200
+        '500':
+          $ref: "#/components/responses/500ExceptionError"
+  /api/restaurant/home/info_list:
+    post:
+      summary: Get paginated list of restaurant information
+      description: Retrieves a list of restaurant information, divided by pagination.
+      operationId: getAllRestaurantInfoList
+      tags:
+        - Home
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pageNumber:
+                  type: integer
+                  example: 1
+                itemPerPage:
+                  type: integer
+                  example: 10
+      responses:
+        '200':
+          description: Get restaurant info list successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Get restaurant info list successfully"
+                  totalRestaurantListInfo:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/RestaurantRecieve"
+        '404':
+          description: Restaurants not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Restaurants not found"
+        '500':
+          description: Internal error server
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Error message describing the issue"
+  /api/restaurant/home/food_list:
+    post:
+      summary: Get paginated list of restaurant foods
+      description: Retrieves a list of foods from restaurants, divided by pagination.
+      operationId: getAllRestaurantsFoodList
+      tags:
+        - Home
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pageNumber:
+                  type: integer
+                  example: 1
+                itemPerPage:
+                  type: integer
+                  example: 10
+      responses:
+        '200':
+          description: Get restaurant foods list successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Get restaurant foods list successfully"
+                  totalRestaurantInfoList:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/FoodRecieve"
+        '404':
+          description: Foods not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Foods not found"
+        '500':
+          $ref: "#/components/responses/500ExceptionError"
+  /api/restaurant/home/filtered_info_list:
+    post:
+      summary: Get filtered restaurant information
+      description: Retrieves a list of restaurants that match the specified filter criteria.
+      operationId: getFilteredRestaurantInfo
+      tags:
+        - Home
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pureVegan:
+                  type: boolean
+                  example: false
+                takeAway:
+                  type: boolean
+                  example: true
+                dineIn:
+                  type: boolean
+                  example: true
+                buffet:
+                  type: boolean
+                  example: false
+                foodCountryTypes:
+                  type: array
+                  items:
+                    type: string
+                    example: "Nhật Bản"
+                deliveryTypes:
+                  type: array
+                  items:
+                    type: string
+                    example: "Foody"
+                priceOver:
+                  type: number
+                  example: 30000
+                priceUnder:
+                  type: number
+                  example: 500000
+      responses:
+        '200':
+          description: Get all filtered restaurant info list successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Get all filtered restaurant info list successfully"
+                  filteredRestaurantInfoOption:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/RestaurantRecieve"
+        '404':
+          description: Filtered restaurants not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Filtered restaurants not found"
+        '500':
+          $ref: "#/components/responses/500ExceptionError"
+  /api/restaurant/home/searched_info_list:
+    post:
+      summary: Get searched restaurant information
+      description: Retrieves a list of restaurants that match the specified query, check for name or address.
+      operationId: getSearchedRestaurantInfo
+      tags:
+        - Home
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                searchQuery:
+                  type: string
+                  example: "Kira"  
+      responses:
+        '200':
+          description: Get all searched restaurant list successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Get all searched restaurant list successfully"
+                  searchedRestaurantInfoList:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/RestaurantRecieve"
+        '404':
+          description: Searched restaurants not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Searched restaurants not found"
+        '500':
+          $ref: "#/components/responses/500ExceptionError"
+          
+
+  /api/restaurant/{restaurant_id}/review_rating:
+    post:
+      summary: Create a review rating for a restaurant
+      description: Allows users to submit a rating and comment for a specified restaurant.
+      operationId: createReviewRating
+      tags:
+        - Review
+      security:
+        - jwt_token: []
+      parameters:
+        - name: restaurant_id
+          in: path
+          required: true
+          description: The ID of the restaurant for which the review is being created.
+          schema:
+            type: string
+            example: "6736ed3821c22145be2db9ce"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ratingAmount:
+                  type: number
+                  format: float
+                  example: 3.0
+                  description: The rating amount given by the user, typically between 1.0 and 5.0.
+                ratingText:
+                  type: string
+                  example: "testtst"
+                  description: The text of the review or comment provided by the user.
+      responses:
+        '201':
+          description: Create review rating successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Create review rating successfully"
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Create review rating failed"
+        '500':
+          $ref: "#/components/responses/500ExceptionError"
+
+  /api/restaurant/{restaurant_id}/review_comment:
+    post:
+      summary: Create a comment for a restaurant review
+      description: Allows users to submit a comment on a specific review for a restaurant.
+      operationId: createReviewComment
+      tags:
+        - Review
+      security:
+        - jwt_token: []
+      parameters:
+        - name: restaurant_id
+          in: path
+          required: true
+          description: The ID of the restaurant for which the comment is being created.
+          schema:
+            type: string
+            example: "6736ed3821c22145be2db9ce"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ratingId:
+                  type: string
+                  example: "673ce9d823458a2d1afe5b56"
+                  description: The ID of the rating that this comment is associated with.
+                commentText:
+                  type: string
+                  example: "this is a comment"
+                  description: The text of the comment provided by the user.
+      responses:
+        '201':
+          description: Create review comment successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Create review comment successfully"
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Create review comment failed"
+        '500':
+          $ref: "#/components/responses/500ExceptionError"
+  /api/restaurant/{restaurant_id}/review_manager:
+    get:
+      summary: Get review manager for a restaurant
+      description: Retrieves the review manager information, including average rating and total comments for a specified restaurant.
+      operationId: getReviewManager
+      tags:
+        - Review
+      security:
+        - jwt_token: []
+      parameters:
+        - name: restaurant_id
+          in: path
+          required: true
+          description: The ID of the restaurant for which the review manager is being retrieved.
+          schema:
+            type: string
+            example: "6736eccd21c22145be2db9c5"
+      responses:
+        '200':
+          description: Get review manager successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Get review manager successfully"
+                  reviewManager:
+                    type: object
+                    properties:
+                      average_rating:
+                        type: number
+                        format: float
+                        example: 4.0
+                        description: The average rating of the restaurant based on reviews.
+                      restaurant_id:
+                        type: string
+                        example: "6736eccd21c22145be2db9c5"
+                        description: The unique identifier of the restaurant.
+                      total_comment:
+                        type: integer
+                        example: 8
+                        description: The total number of comments made about the restaurant.
+                      total_rating:
+                        type: integer
+                        example: 4
+                        description: The total number of ratings given to the restaurant.
+        '404':
+          description: Review manager not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Get review manager failed"
+        '500':
+          $ref: "#/components/responses/500ExceptionError"
+  /api/restaurant/{restaurant_id}/reviews:
+    get:
+      summary: Get all reviews and ratings for a restaurant
+      description: Retrieves all reviews and their associated comments for a specified restaurant.
+      operationId: getAllReviews
+      tags:
+        - Review
+      parameters:
+        - name: restaurant_id
+          in: path
+          required: true
+          description: The ID of the restaurant for which reviews are being retrieved.
+          schema:
+            type: string
+            example: "6736eccd21c22145be2db9c5"
+      responses:
+        '200':
+          description: Get all reviews successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Get all reviews successfully"
+                  reviews:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Rating"
+        '404':
+          description: Reviews not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Get all reviews failed"
+        '500':
+          $ref: "#/components/responses/500ExceptionError"
